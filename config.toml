@@ -1,9 +1,9 @@
 title = "陈 sir 的博客"
 baseURL = "http://example.com"
-languageCode = "zh"
+languageCode = "zh-CN"
 theme = "hugo-clarity"
 
-DefaultContentLanguage = "zh"
+DefaultContentLanguage = "zh-CN"
 defaultContentLanguageInSubdir = true
 SectionPagesMenu = "main"
 Paginate = 3 # this is set low for demonstrating with dummy content. Set to a higher number
@@ -11,7 +11,7 @@ googleAnalytics = ""
 enableRobotsTXT = true
 
 [languages]
-  [languages.zh]
+  [languages.zh-CN]
     title = "陈 sir 的博客"
     weight = 1
     contentDir = "content/zh"
