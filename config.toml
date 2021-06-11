@@ -1,5 +1,5 @@
 title = "陈 sir 的博客"
-baseURL = "https://hugo-g723bghqe-yudar1024.vercel.app/"
+baseURL = ""
 languageCode = "zh"
 theme = "ananke"
 
