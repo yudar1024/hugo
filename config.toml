@@ -1,7 +1,7 @@
 title = "陈 sir 的博客"
 baseURL = "http://example.com"
 languageCode = "zh-CN"
-theme = "hugo-clarity"
+theme = "hugoclarity"
 
 DefaultContentLanguage = "zh-cn"
 defaultContentLanguageInSubdir = true
