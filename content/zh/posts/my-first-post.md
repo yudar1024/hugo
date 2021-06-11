@@ -1,7 +1,8 @@
 ---
-title: '我的博客'
+title: '镜像'
 date: 2019-07-18T17:18:05+01:00
 draft: false
+baseURL: "https://hugo-g723bghqe-yudar1024.vercel.app/"
 ---
 
 
