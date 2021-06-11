@@ -24,7 +24,7 @@ baseURL: "https://hugo-g723bghqe-yudar1024.vercel.app/"
 rootfs 是挂载在容器根目录上、用来为容器进程提供隔离后执行环境的文件系统，这个文件系统是一个操作系统的**完整文件系统**。需要明确的是，**rootfs 只是一个操作系统所包含的文件、配置和目录，并不包括操作系统内核。在 Linux 操作系统中，这两部分是分开存放的，操作系统只有在开机启动时才会加载指定版本的内核镜像。**
 
 长这样。
-```shell
+```
 $ ls /
 bin dev etc home lib lib64 mnt opt proc root run sbin sys tmp usr var
 ```
@@ -43,7 +43,7 @@ docker 的创新在于用户制作镜像的每一步操作，都会生成一个�
 ![image.png](https://upload-images.jianshu.io/upload_images/5120230-f52e8b7109a32edd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 我们可以通过 `docker image inspect` 来查看镜像的层
-```shell
+```
 root@ubuntudev ~# docker image inspect golang:1.16
 
 ...
@@ -78,7 +78,7 @@ UnionFS (联合文件系统) 是一种分层、轻量级并且高性能的文件
 特性:一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录
 
 感受一下
-```shell
+```
 cd /tmp
 mkdir a b c
 echo "aaa" > a/a.txt
@@ -101,7 +101,7 @@ AUFS的检测级别可以通过udba指定
 - reval：aufs会访问重新原始目录，如果文件有更新，在会反映在aufs中
 
 - Notify： 会在所有原始目录中的所有目录上注册notify事件，这会严重的影响性能，不建议使用。
-```shell
+```
 mount -v -t aufs -o br=/tmp/a:/tmp/b -o udba=none none /tmp/c
 ```
 
