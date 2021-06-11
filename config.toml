@@ -1,5 +1,5 @@
 title = "陈 sir 的博客"
-baseURL = ""
+baseURL = "/"
 languageCode = "zh-CN"
 theme = "hugoclarity"
 
