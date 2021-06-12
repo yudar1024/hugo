@@ -1,6 +1,6 @@
 +++
 author = "陈 sir"
-title = "windows terminal ssh keep alive"
+title = "windows terminal 保持 ssh session"
 date = "2021-06-12"
 description = "windows terminal 保持 ssh alive"
 tags = [
