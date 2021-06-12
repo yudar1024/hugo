@@ -18,7 +18,7 @@ image = "/images/article.jpg"
 在windows 用户目录下创建 .ssh 文件夹，或者可以尝试连接 SSH 随意一个服务器即可自动创建此文件夹。
 
 在其中创建配置文件 config ，写入以下两行。
-```shell
+```
 Host *
-    ServerAliveInterval 40
+  ServerAliveInterval 40
 ```
