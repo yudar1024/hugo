@@ -2,7 +2,6 @@
 title: '镜像'
 date: 2021-06-10T17:18:05+01:00
 draft: false
-baseURL: "https://hugo-g723bghqe-yudar1024.vercel.app/"
 ---
 
 
@@ -40,7 +39,7 @@ bin dev etc home lib lib64 mnt opt proc root run sbin sys tmp usr var
 如果修改都基于一个基础的 rootfs，而将变更做成增量，所有人都只需要维护相对于 base rootfs 修改的增量内容，而不是每次修改都制造一个“fork”。
 
 docker 的创新在于用户制作镜像的每一步操作，都会生成一个层，也就是一个增量。
-![image.png](https://upload-images.jianshu.io/upload_images/5120230-f52e8b7109a32edd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](/images/layer1.jpg)
 
 我们可以通过 `docker image inspect` 来查看镜像的层
 ```shell
@@ -66,7 +65,7 @@ root@ubuntudev ~# docker image inspect golang:1.16
 
 
 ##### 层的可读写性
-![image.png](https://upload-images.jianshu.io/upload_images/5120230-4b8774ec4d9b4c8c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![image.png](/images/rw.jpg)
 
 容器（container）的定义和镜像（image）几乎一模一样，也是一堆层的统一视角，唯一区别在于容器的最上面那一层是可读可写的。
 
