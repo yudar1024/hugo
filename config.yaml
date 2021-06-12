@@ -35,10 +35,10 @@ params:
 
     sidebar:
         emoji: 🍥
-        subtitle: 团结就是力量.
+        subtitle: 选择比努力重要
         avatar:
             local: true
-            src: img/avatar.png
+            src: img/logo.jpg
 
     article:
         math: false
@@ -112,7 +112,7 @@ params:
 menu:
     main:
         - identifier: home
-          name: Home
+          name: 主页
           url: /
           weight: -100
           pre: home
