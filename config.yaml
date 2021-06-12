@@ -1,6 +1,6 @@
 baseurl: "/"
 theme: hugothemestack
-paginate: 5
+paginate: 10
 title: 陈sir的博客
 languageCode: "zh-CN"
 
