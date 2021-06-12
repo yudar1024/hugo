@@ -1,4 +1,4 @@
-baseurl: "hugo-ashy-psi.vercel.app"
+baseurl: "https://hugo-ashy-psi.vercel.app"
 theme: hugothemestack
 paginate: 10
 title: 陈sir的博客
