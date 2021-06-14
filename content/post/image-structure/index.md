@@ -440,5 +440,31 @@ bin  boot  dev  etc  home  lib  lib64  media  mnt  opt  proc  root  run  sbin  s
 ```
 至此，层的内容就找到了。
 
+## 容器在磁盘上的存储
 
-![参考](https://zhuanlan.zhihu.com/p/95900321)
+容器的文件系统分为三层: - r/o层：也就是镜像层 - init层：启动容器时的参数 - r/w层：可读写层
+
+前面我们知道镜像存储在/var/lib/docker/overlay2下面，这里不仅包含了只读（r/o）层，init层和r/w层都在这个里面。 现在我们启动一个容器看看：
+
+```shell
+root@ubuntudev ~# docker ps
+CONTAINER ID   IMAGE                  COMMAND                  CREATED      STATUS      PORTS                    NAMES
+48e0fa4e4e4f   kindest/node:v1.21.1   "/usr/local/bin/entr…"   6 days ago   Up 6 days   0.0.0.0:6443->6443/tcp   kind-control-plane
+```
+运行一个容器会返回一个容器id. 通过这个id，我们能在/var/lib/docker/image/overlay2/layerdb/mounts目录下找到该容器的信息：
+```shell
+root@ubuntudev ~# ll /var/lib/docker/image/overlay2/layerdb/mounts/48e0fa4e4e4fa327bab180ab3853dcc373e436c997111151aee3de03acd9948c/
+total 12K
+-rw-r--r-- 1 root root 69 Jun  7 16:42 init-id
+-rw-r--r-- 1 root root 64 Jun  7 16:42 mount-id
+-rw-r--r-- 1 root root 71 Jun  7 16:42 parent
+```
+
+### docker中的overlayFS
+
+下图展示了overlayFS的两个特征： - 上下合并 - 同名遮盖
+
+![overlayerfs](layerfs.jpg)
+
+
+[参考](https://zhuanlan.zhihu.com/p/95900321)
