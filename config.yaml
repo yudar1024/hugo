@@ -35,7 +35,7 @@ params:
 
     sidebar:
         emoji: 🍥
-        subtitle: 人的悲喜并不相通，所以理解才会珍贵
+        subtitle: 人的悲喜并不相通，所以理解才会尤为珍贵
         avatar:
             local: true
             src: img/logo.jpg
