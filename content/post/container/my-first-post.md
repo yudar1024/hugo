@@ -71,50 +71,48 @@ root@ubuntudev ~# docker image inspect golang:1.16
 
 > 思考：bin etc 这些操作系统目录被拉平到根目录下，如何还能正常工作？
 
-#### Union File System
-就是用来解决这样一个问题。
-UnionFS (联合文件系统) 是一种分层、轻量级并且高性能的文件系统，它支持对文件系统的修改作为一’ 次提交来一层层的叠加，同时可以将不同月录挂载到同一个虚拟文件系统下(unite several directories into a single virtual filesystem)。Union 文件系统是Docker镜像的基础。镜像可以通过分层来进行继承，基于基础镜像(没有父镜像)，可以制作各种具体的应用镜像。
+#### OverLay File System
 
-特性:一次同时加载多个文件系统，但从外面看起来，只能看到一个文件系统，联合加载会把各层文件系统叠加起来，这样最终的文件系统会包含所有底层的文件和目录
+Overlayfs是一种堆叠文件系统，它依赖并建立在其它的文件系统之上（例如ext4fs和xfs等等），并不直接参与磁盘空间结构的划分，仅仅将原来底层文件系统中不同的目录进行“合并”，然后向用户呈现。因此对于用户来说，它所见到的overlay文件系统根目录下的内容就来自挂载时所指定的不同目录的“合集”。
+
 
 感受一下
 ```shell
 
-cd /tmp
-mkdir a b c
-echo "aaa" > a/a.txt
-echo "bbb" > b/b.txt
-mount -v -t aufs -o br=/tmp/a:/tmp/b none /tmp/c
-ls /tmp/c
+mkdir -p lower1
+mkdir -p lower2
+mkdir -p lower3
+mkdir -p merge
+mkdir -p upper
+mkdir -p work
 
+echo "lower1" > lower1/share.txt
+echo "lower2" > lower2/share.txt
+echo "lower3" > lower3/share.txt
+echo "worksh1" > lower1/test1.sh
+echo "worksh2" > lower2/test2.sh
+echo "worksh3" > lower3/test3.sh
+echo "uppersh" > upper/test2.sh
+echo "uppertxt" > upper/up.txt
+
+# mount -t overlay overlay -o lowerdir=lower1:lower2:lower3,upperdir=upper,workdir=work merged
+# mount -l
 ```
 
 解释下mount命令各参数含义：
--  -t aufs 指定文件系统类型为aufs
+- -t overlay 指定类型为overlay
 - -o 后面是挂载选项，指定我们要挂载哪些目录
-- none 说明我们挂载的不是设备文件，因为这里我们是直接挂载目录的
+- lowerdir=xxx：指定用户需要挂载的lower层目录（支持多lower，最大支持500层）；
+- upperdir=xxx：指定用户需要挂载的upper层目录；
+- workdir=xxx：指定文件系统的工作基础目录，挂载后内容会被清空，且在使用过程中其内容用户不可见；
+- default_permissions：功能未使用；
+- redirect_dir=on/off：开启或关闭redirect directory特性，开启后可支持merged目录和纯lower层目录的rename/renameat系统调用；
+- index=on/off：开启或关闭index特性，开启后可避免hardlink copyup broken问题。
 
-AUFS的检测级别可以通过udba指定
-
-**udba有三种级别:none、reval、inotify，对性能的影响依次增加，当然安全性也有所增强。**
-
-- None: 这种检测是最快的，但可能导致错误的数据，例如在原始目录修改文件，在aufs中读取，不完全保证正确
-
-- reval：aufs会访问重新原始目录，如果文件有更新，在会反映在aufs中
-
-- Notify： 会在所有原始目录中的所有目录上注册notify事件，这会严重的影响性能，不建议使用。
-```
-mount -v -t aufs -o br=/tmp/a:/tmp/b -o udba=none none /tmp/c
-```
-
-**设置读写**
-```shell
-
-mount -v -t aufs -o br=/tmp/a=rw:/tmp/b=ro -o udba=none none /tmp/c
-
-```
+其中lowerdir、upperdir和workdir为基本的挂载选项，redirect_dir和index涉及overlayfs为功能支持选项，除非内核编译时默认启动，否则默认情况下这两个选项不启用，这里先按照默认情况进行演示分析，后面这两个选项单独说明。
 
 
-[参考](https://blog.csdn.net/lihm0_1/article/details/42030169)
+
+[参考](https://blog.csdn.net/luckyapple1028/article/details/77916194)
 
 
